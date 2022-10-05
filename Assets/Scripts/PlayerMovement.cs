@@ -1,33 +1,76 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField]
     private float playerSpeed = 5f;
-    private Vector2 targetPoint;
+    [SerializeField]
+    private PlayerLine line;
+
+    private Vector2 currentTarget;
+    private List<Vector2> targets;
+    private PlayerGameplay gameplay;
+
+    private void Start()
+    {
+        gameplay = GetComponent<PlayerGameplay>();
+        Initialize();
+    }
+
+    public void Initialize()
+    {
+        targets = new List<Vector2>();
+        currentTarget = transform.position;
+    }
 
     private void Update()
     {
-        if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began)
+        if (gameplay.GameIsActive)
         {
-            targetPoint = Camera.main.ScreenToWorldPoint(Input.touches[0].position);
-        }
+            if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began)
+            {
+                AddTarget(Camera.main.ScreenToWorldPoint(Input.touches[0].position));
+            }
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            targetPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        }
+            if (Input.GetMouseButtonDown(0))
+            {
+                AddTarget(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+            }
 
-        if (Vector2.Distance(transform.position, targetPoint) > 0.1f)
-        {
-            MovePlayer(targetPoint);
+            if (Vector2.Distance(transform.position, currentTarget) > 0.1f)
+            {
+                MovePlayer(currentTarget);
+            }
+            else
+            {
+                TryNextTarget();
+            }
         }
     }
 
-    void MovePlayer(Vector2 target)
+    private void AddTarget(Vector3 target)
+    {
+        line.AddPoint(target);
+        targets.Add(target);
+    }
+
+    private void MovePlayer(Vector2 target)
     {
         Vector2 direction = (target - (Vector2)transform.position).normalized;
         transform.Translate(direction * playerSpeed * Time.deltaTime);
+    }
+
+    private void TryNextTarget()
+    {
+        if (targets.Count > 0)
+        {
+            if (targets.Count > 1)
+            {
+                targets.RemoveAt(0);
+            }
+            currentTarget = targets[0];
+        }
     }
 }
