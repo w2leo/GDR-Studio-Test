@@ -41,7 +41,7 @@ public class Spawner : MonoBehaviour
         DeleteGameObjectsAndClearList(enemies);
         DeleteGameObjectsAndClearList(items);
 
-        player.FirstInitialization(startGameButton, gameText, coinText, maxCoins);
+        
         player.gameObject.SetActive(true);
         for (int i = 0; i < maxSpikes; i++)
         {
@@ -51,6 +51,8 @@ public class Spawner : MonoBehaviour
         {
             items.Add(SpawnObject<Item>(coinPrefab.transform));
         }
+        maxCoins = items.Count;
+        player.FirstInitialization(startGameButton, gameText, coinText, maxCoins);
     }
 
     private void DeleteGameObjectsAndClearList<T>(List<T> objectList) where T : MonoBehaviour

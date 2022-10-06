@@ -157,8 +157,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -101.71997, y: 61.985107}
-  m_SizeDelta: {x: 203.45, y: 123.97}
+  m_AnchoredPosition: {x: -154.07, y: 150}
+  m_SizeDelta: {x: 308.1, y: 300.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &268653309
 MonoBehaviour:
@@ -207,12 +207,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 180
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMin: 30
+  m_fontSizeMax: 180
   m_fontStyle: 3
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -1008,7 +1008,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0983c5c5675335243888205ce5b9663a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpikes: 20
+  maxSpikes: 10
   maxCoins: 10
   spikePrefab: {fileID: 2057475826028502805, guid: 4ec10dd2ae28ef74e98230ac9dcde415,
     type: 3}
