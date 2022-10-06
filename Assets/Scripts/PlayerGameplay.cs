@@ -1,25 +1,20 @@
 using UnityEngine;
 
-public enum EndGameStatus
-{
-    Win, Loose
-};
-
 [RequireComponent(typeof(PlayerMovement))]
 public class PlayerGameplay : MonoBehaviour
 {
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private LayerMask itemsLayer;
     [SerializeField] private PlayerLine playerLine;
-    private PlayerMovement playerMovement;
     [SerializeField] private Player player;
     [SerializeField] Transform explosion;
+    private PlayerMovement playerMovement;
+    private int maxCoins;
+    private ParticleSystem expl;
 
     public int Coins { get; private set; }
 
     public bool GameIsActive { get; private set; }
-
-    private int maxCoins;
 
     private void Awake()
     {
@@ -34,12 +29,13 @@ public class PlayerGameplay : MonoBehaviour
         transform.position = Vector3.zero;
         playerLine.Initialize();
         playerMovement.Initialize();
+        expl = Instantiate(explosion, transform.position, Quaternion.identity).GetComponent<ParticleSystem>();
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         var collisionLayer = (1 << collision.gameObject.layer);
-
         if ((collisionLayer & itemsLayer) != 0)
         {
             CollectCoin(collision);
@@ -55,7 +51,6 @@ public class PlayerGameplay : MonoBehaviour
     {
         Coins++;
         coinCollider.gameObject.SetActive(false);
-        Debug.Log($"Coins = {Coins}");
         if (Coins == maxCoins)
         {
             EndGameplay(EndGameStatus.Win);
@@ -70,10 +65,15 @@ public class PlayerGameplay : MonoBehaviour
     private void EndGameplay(EndGameStatus status)
     {
         GameIsActive = false;
-        ParticleSystem expl = Instantiate(explosion, transform.position, Quaternion.identity).GetComponent<ParticleSystem>();
-        expl.Play();
+        PlayExplosion();
         playerLine.StopLine();
         playerMovement.Initialize();
         player.EndGame(status);
+    }
+
+    private void PlayExplosion()
+    {
+        expl.transform.position = transform.position;
+        expl.Play();
     }
 }

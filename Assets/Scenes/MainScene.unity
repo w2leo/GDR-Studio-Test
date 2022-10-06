@@ -1010,15 +1010,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpikes: 10
   maxCoins: 10
-  spikePrefab: {fileID: 2057475826028502805, guid: 4ec10dd2ae28ef74e98230ac9dcde415,
+  spikePrefab: {fileID: -9192038531221384537, guid: 4ec10dd2ae28ef74e98230ac9dcde415,
     type: 3}
-  coinPrefab: {fileID: 554826718640494117, guid: 6acb179291a11c24b918d8fffad34f80,
+  coinPrefab: {fileID: -4093766311373936230, guid: 6acb179291a11c24b918d8fffad34f80,
     type: 3}
   playerPrefab: {fileID: 3215557348887300722, guid: 5e5e5bdb19540714580c58f5ea117331,
     type: 3}
-  minDistance: 1
+  minItemDistance: 1
   gameText: {fileID: 1067979859}
-  startGameButton: {fileID: 1369367023}
+  newGameButton: {fileID: 1369367023}
   coinText: {fileID: 268653309}
 --- !u!1 &1848535025
 GameObject:

@@ -1,6 +1,4 @@
-using JetBrains.Annotations;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -14,14 +12,13 @@ public class Spawner : MonoBehaviour
     [SerializeField] Enemy spikePrefab;
     [SerializeField] Item coinPrefab;
     [SerializeField] Transform playerPrefab;
-    [SerializeField] private int minDistance;
+    [SerializeField] private int minItemDistance;
     [SerializeField] private TextMeshProUGUI gameText;
-    [SerializeField] private Button startGameButton;
+    [SerializeField] private Button newGameButton;
     [SerializeField] private TextMeshProUGUI coinText;
     private Player player;
     private List<Enemy> enemies;
     private List<Item> items;
-
     private float minX, maxX, minY, maxY;
     private const int maxIterations = 100;
 
@@ -29,7 +26,6 @@ public class Spawner : MonoBehaviour
     {
         enemies = new List<Enemy>();
         items = new List<Item>();
-
         Transform playerTransform = Instantiate(playerPrefab, Vector2.zero, Quaternion.identity);
         player = playerTransform.GetComponent<Player>();
         player.gameObject.SetActive(false);
@@ -39,9 +35,7 @@ public class Spawner : MonoBehaviour
     {
         SetMinMaxXY();
         DeleteGameObjectsAndClearList(enemies);
-        DeleteGameObjectsAndClearList(items);
-
-        
+        DeleteGameObjectsAndClearList(items);     
         player.gameObject.SetActive(true);
         for (int i = 0; i < maxSpikes; i++)
         {
@@ -52,7 +46,7 @@ public class Spawner : MonoBehaviour
             items.Add(SpawnObject<Item>(coinPrefab.transform));
         }
         maxCoins = items.Count;
-        player.FirstInitialization(startGameButton, gameText, coinText, maxCoins);
+        player.FirstInitialization(newGameButton, gameText, coinText, maxCoins);
     }
 
     private void DeleteGameObjectsAndClearList<T>(List<T> objectList) where T : MonoBehaviour
@@ -94,7 +88,7 @@ public class Spawner : MonoBehaviour
 
     private bool CheckSpawnPossibility(Vector2 spawnPoint)
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(spawnPoint, minDistance);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(spawnPoint, minItemDistance);
         if (colliders.Length == 0)
         {
             return true;

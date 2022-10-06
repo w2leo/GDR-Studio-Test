@@ -7,18 +7,6 @@ using UnityEngine.Rendering;
 using UnityEngine.UI;
 using Color = UnityEngine.Color;
 
-public struct EndGameUIElements
-{
-    public string endGameMessage;
-    public Color endGameColor;
-
-    public EndGameUIElements(string endGameMessage, Color endGameColor)
-    {
-        this.endGameMessage = endGameMessage;
-        this.endGameColor = endGameColor;
-    }
-}
-
 public class Player : MonoBehaviour
 {
     [SerializeField] private PlayerGameplay playerGameplay;

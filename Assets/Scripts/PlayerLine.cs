@@ -21,15 +21,18 @@ public class PlayerLine : MonoBehaviour
 
     private void Update()
     {
-        lineRenderer.SetPosition(0, player.position);
-        CheckDistanceToTarget();
+        if (lineRenderer.positionCount > 0)
+        {
+            lineRenderer.SetPosition(0, player.position);
+            CheckDistanceToTarget();
+        }
     }
 
     private void CheckDistanceToTarget()
     {
         if (lineRenderer.positionCount > 1 && Vector2.Distance(lineRenderer.GetPosition(0), lineRenderer.GetPosition(1)) < 0.1f)
         {
-            DeletePoint();
+            DeleteFirstPoint();
         }
     }
 
@@ -39,7 +42,7 @@ public class PlayerLine : MonoBehaviour
         lineRenderer.SetPosition(lineRenderer.positionCount - 1, newPosition);
     }
 
-    public void DeletePoint()
+    public void DeleteFirstPoint()
     {
         if (lineRenderer.positionCount > 1)
         {

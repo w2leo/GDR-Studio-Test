@@ -4,18 +4,15 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField]
-    private float playerSpeed = 5f;
-    [SerializeField]
-    private PlayerLine line;
-
+    [SerializeField] private float playerSpeed = 5f;
+    [SerializeField] private PlayerLine line;
     private Vector2 currentTarget;
     private List<Vector2> targets;
-    private PlayerGameplay gameplay;
+    private PlayerGameplay playerGameplay;
 
     private void Awake()
     {
-        gameplay = GetComponent<PlayerGameplay>();
+        playerGameplay = GetComponent<PlayerGameplay>();
         targets = new List<Vector2>();
         Initialize();
     }
@@ -28,18 +25,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (gameplay.GameIsActive)
+        if (playerGameplay.GameIsActive)
         {
             if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began)
             {
                 AddTarget(Camera.main.ScreenToWorldPoint(Input.touches[0].position));
             }
-
             if (Input.GetMouseButtonDown(0))
             {
                 AddTarget(Camera.main.ScreenToWorldPoint(Input.mousePosition));
             }
-
             if (Vector2.Distance(transform.position, currentTarget) > 0.1f)
             {
                 MovePlayer(currentTarget);
