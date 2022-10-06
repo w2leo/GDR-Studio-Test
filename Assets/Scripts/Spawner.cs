@@ -42,7 +42,7 @@ public class Spawner : MonoBehaviour
         DeleteGameObjectsAndClearList(items);
 
         player.FirstInitialization(startGameButton, gameText, coinText, maxCoins);
-
+        player.gameObject.SetActive(true);
         for (int i = 0; i < maxSpikes; i++)
         {
             enemies.Add(SpawnObject<Enemy>(spikePrefab.transform));

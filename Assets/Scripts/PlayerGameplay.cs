@@ -13,6 +13,7 @@ public class PlayerGameplay : MonoBehaviour
     [SerializeField] private PlayerLine playerLine;
     private PlayerMovement playerMovement;
     [SerializeField] private Player player;
+    [SerializeField] Transform explosion;
 
     public int Coins { get; private set; }
 
@@ -57,20 +58,22 @@ public class PlayerGameplay : MonoBehaviour
         Debug.Log($"Coins = {Coins}");
         if (Coins == maxCoins)
         {
-            player.EndGame(EndGameStatus.Win);
+            EndGameplay(EndGameStatus.Win);
         }
     }
 
     private void TakeDamage()
     {
-        player.EndGame(EndGameStatus.Loose);
+        EndGameplay(EndGameStatus.Loose);
     }
 
     private void EndGameplay(EndGameStatus status)
     {
         GameIsActive = false;
+        ParticleSystem expl = Instantiate(explosion, transform.position, Quaternion.identity).GetComponent<ParticleSystem>();
+        expl.Play();
         playerLine.StopLine();
         playerMovement.Initialize();
-        player.EndGame(EndGameStatus.Win);
+        player.EndGame(status);
     }
 }

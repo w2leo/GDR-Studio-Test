@@ -157,6 +157,8 @@ MonoBehaviour:
     m_Bits: 128
   playerLine: {fileID: 3215557349563693684}
   player: {fileID: 2634911675319089750}
+  explosion: {fileID: 1215009075580830271, guid: b2a727c76b548d542af83d10ac2f9289,
+    type: 3}
 --- !u!1 &3215557348887300723
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,7 +299,7 @@ LineRenderer:
     colorGradient:
       serializedVersion: 2
       key0: {r: 0, g: 0.09865379, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 0.03137252, g: 0.9607843, b: 0.88878626, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
