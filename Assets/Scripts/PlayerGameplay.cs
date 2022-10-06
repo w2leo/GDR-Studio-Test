@@ -1,44 +1,42 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
+public enum EndGameStatus
+{
+    Win, Loose
+};
+
+[RequireComponent(typeof(PlayerMovement))]
 public class PlayerGameplay : MonoBehaviour
 {
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private LayerMask itemsLayer;
-    [SerializeField] private PlayerLine line;
-    [SerializeField] private TextMeshProUGUI endGameText;
-    [SerializeField] private Button restartButton;
-    [SerializeField] private TextMeshProUGUI coinText;
+    [SerializeField] private PlayerLine playerLine;
+    private PlayerMovement playerMovement;
+    [SerializeField] private Player player;
+
+    public int Coins { get; private set; }
 
     public bool GameIsActive { get; private set; }
-    private int coins;
 
-    private void Start()
+    private int maxCoins;
+
+    private void Awake()
     {
-        StartGame();
+        playerMovement = GetComponent<PlayerMovement>();
     }
 
-    private void Update()
-    {
-        coinText.text = coins.ToString();
-    }
-
-    public void StartGame()
+    public void StartGame(int maxCoins)
     {
         GameIsActive = true;
-        coins = 0;
-        // Update UI text (coins)
-        restartButton.gameObject.SetActive(false);
-        endGameText.gameObject.SetActive(false);
-        line.Initialize();
+        Coins = 0;
+        this.maxCoins = maxCoins;
+        transform.position = Vector3.zero;
+        playerLine.Initialize();
+        playerMovement.Initialize();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Trigger enter");
         var collisionLayer = (1 << collision.gameObject.layer);
 
         if ((collisionLayer & itemsLayer) != 0)
@@ -50,51 +48,29 @@ public class PlayerGameplay : MonoBehaviour
         {
             TakeDamage();
         }
-
     }
 
     private void CollectCoin(Collider2D coinCollider)
     {
-        coins++;
-        Destroy(coinCollider.gameObject);
-        Debug.Log($"Coins = {coins}");
-        // Update UI text (coins)
-
-        if (coins == 6)
+        Coins++;
+        coinCollider.gameObject.SetActive(false);
+        Debug.Log($"Coins = {Coins}");
+        if (Coins == maxCoins)
         {
-            WinGame();
+            player.EndGame(EndGameStatus.Win);
         }
     }
 
     private void TakeDamage()
     {
-        Debug.Log("Game Over");
-        LooseGame();
+        player.EndGame(EndGameStatus.Loose);
     }
 
-    private void WinGame()
+    private void EndGameplay(EndGameStatus status)
     {
-        Debug.Log("Win Game");
         GameIsActive = false;
-        GetComponent<PlayerMovement>().Initialize();
-        line.Initialize();
-
-        restartButton.gameObject.SetActive(true);
-        endGameText.color = Color.green;
-        endGameText.text = "YOU WIN!";
-        endGameText.gameObject.SetActive(true);
-    }
-
-    private void LooseGame()
-    {
-        Debug.Log("Loose Game");
-        GameIsActive = false;
-        GetComponent<PlayerMovement>().Initialize();
-        line.Initialize();
-
-        restartButton.gameObject.SetActive(true);
-        endGameText.color = Color.red;
-        endGameText.text = "GAME OVER";
-        endGameText.gameObject.SetActive(true);
+        playerLine.StopLine();
+        playerMovement.Initialize();
+        player.EndGame(EndGameStatus.Win);
     }
 }

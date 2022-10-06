@@ -13,15 +13,16 @@ public class PlayerMovement : MonoBehaviour
     private List<Vector2> targets;
     private PlayerGameplay gameplay;
 
-    private void Start()
+    private void Awake()
     {
         gameplay = GetComponent<PlayerGameplay>();
+        targets = new List<Vector2>();
         Initialize();
     }
 
     public void Initialize()
     {
-        targets = new List<Vector2>();
+        targets.Clear();
         currentTarget = transform.position;
     }
 

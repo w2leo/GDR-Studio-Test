@@ -14,6 +14,11 @@ public class PlayerLine : MonoBehaviour
         AddPoint(player.position);
     }
 
+    public void StopLine()
+    {
+        lineRenderer.positionCount = 0;
+    }
+
     private void Update()
     {
         lineRenderer.SetPosition(0, player.position);
